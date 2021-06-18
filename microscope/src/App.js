@@ -5,7 +5,7 @@ import MicroscopeContainer from './microscopeContainer';
 function App() {
   return (
     <div className="App">
-      <div>Microscope Simulator</div>
+      <div><h1>Microscope Simulator</h1></div>
       <MicroscopeContainer />
     </div>
   );
