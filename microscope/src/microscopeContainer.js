@@ -6,7 +6,7 @@ import specimen3 from "./imgs/thumbnail_Scale_40X.jpg";
 export default class MicroscopeContainer extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { top: 100, right: 25, brightness: 100, blur: 0, lens: "4x", src: specimen1 }
+        this.state = { top: 100, right: 25, brightness: 100, blur: "4px", lens: "4x", src: specimen1, filter: "blur"}
     }
 
     handleChange = event => {
@@ -52,7 +52,8 @@ export default class MicroscopeContainer extends React.Component {
             let brightnessP = this.state.brightness + 25;
             if (brightnessP <= 200) {
                 this.setState({
-                    brightness: brightnessP
+                    brightness: brightnessP,
+                    filter: "brightness"
                 })
             }
         }
@@ -61,7 +62,8 @@ export default class MicroscopeContainer extends React.Component {
             let brightnessP = this.state.brightness - 25;
             if (brightnessP >= 25) {
                 this.setState({
-                    brightness: brightnessP
+                    brightness: brightnessP,
+                    filter: "brightness"
                 })
             }
         }
@@ -92,6 +94,25 @@ export default class MicroscopeContainer extends React.Component {
                 src: specimen3
             })
         }
+        else if (event.target.id === "focus") {
+            if(this.state.filter==="blur") {
+                //if button clicked under blur state, unblur
+                this.setState({
+                    blur: "0px",
+                    filter: "unblur",
+                    brightness: 100
+                })
+
+            }
+            else {
+                //if button clicked under unblur state, blur
+                this.setState({
+                    blur: "4px",
+                    filter: "blur",
+                    brightness: 100
+                })
+            }
+        }
 
     };
 
@@ -102,13 +123,14 @@ export default class MicroscopeContainer extends React.Component {
         // }
 
     };
+    
 
 
     render() {
         return (
             <div>
                 <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-                    <div style={{ width: "800px", height: "600px", border: "solid black 1px" }} onKeyPress={this.handleKeyPress}><img src={this.state.src} style={{ width: "450px", position: "relative", top: this.state.top, right: this.state.right, filter: "brightness(" + this.state.brightness + "%)" }} alt="Comb under microscope at 4x" />
+                    <div style={{ width: "800px", height: "600px", border: "solid black 1px" }} onKeyPress={this.handleKeyPress}><img src={this.state.src} style={{ width: "450px", position: "relative", top: this.state.top, right: this.state.right, filter:(this.state.filter==="brightness") ? "brightness(" + this.state.brightness + "%)" : "blur(" + this.state.blur + ")" }} alt="Comb under microscope" />
                     </div>
                 </div>
                 <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
@@ -131,9 +153,7 @@ export default class MicroscopeContainer extends React.Component {
                         <button id="40x" onClick={this.handleChange} type="button">40x</button>
                     </div>
                     <div style={{ width: "130px", display: "flex", justifyContent: "space-around", margin: 5 }}>
-                        <div>Blur: </div>
-                        <button id="incBlur" onClick={this.handleChange} type="button">Up</button>
-                        <button id="decBlur" onClick={this.handleChange} type="button">Down</button>
+                        <button id="focus" onClick={this.handleChange} type="button">Focus/Unfocus</button>
                     </div>
                 </div>
             </div>
