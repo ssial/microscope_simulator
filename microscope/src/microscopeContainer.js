@@ -129,7 +129,12 @@ export default class MicroscopeContainer extends React.Component {
         }
         else if (event.target.id === "10xZoom") {
             this.setState({
-                zoom: 6
+                zoom: 2.5
+            })
+        }
+        else if (event.target.id === "40xZoom") {
+            this.setState({
+                zoom: 10
             })
         }
         else if (event.target.id === "focus") {
@@ -198,8 +203,8 @@ export default class MicroscopeContainer extends React.Component {
                             <div id="original4xImgContainer" style={{ width: "50%", height: "100%", border: "solid green 1px" }}>
                                 <img id="original4xImg" src={this.state.src} style={{ width: "75%", height: 460, position: "relative", top: this.state.top, left: this.state.left, filter: (this.state.filter === "brightness") ? "brightness(" + this.state.brightness + "%)" : "blur(" + this.state.blur + ")" }} alt="Comb under microscope" />
                             </div>
-                            <div id="zoom4xImgContainer" style={{ width: "50%", height: "100%", border: "solid green 1px" }}>
-                                <img id="zooml4xImg" src={specimen1} style={{ height: 460, position: "relative", top: this.state.top, left: this.state.left, filter: (this.state.filter === "brightness") ? "brightness(" + this.state.brightness + "%)" : "blur(" + this.state.blur + ")",zoom:this.state.zoom }} alt="Comb under microscope" />
+                            <div id="zoom4xImgContainer" style={{ width: "50%", height: "100%", border: "solid green 1px", overflow:"scroll" }}>
+                                <img id="zooml4xImg" src={specimen1} style={{ height: 460, position: "relative", top: this.state.top, left: this.state.left, filter: (this.state.filter === "brightness") ? "brightness(" + this.state.brightness + "%)" : "blur(" + this.state.blur + ")",transform:"scale("+this.state.zoom+")" }} alt="Comb under microscope" />
                             </div>
                         </div>
                     </div>
