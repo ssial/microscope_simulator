@@ -7,7 +7,7 @@ import specimen3 from "./imgs/thumbnail_Scale_40X.jpg";
 export default class MicroscopeContainer extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { top: 120, left: 0, brightness: 100, blur: "4px", lens: "4x", src: specimen1, filter: "blur", zoom: 1}
+        this.state = { top: 120, left: 0, brightness: 100, blur: "4px", lens: "4x", src: specimen1, filter: "blur", zoom: 1 }
 
     }
 
@@ -199,32 +199,38 @@ export default class MicroscopeContainer extends React.Component {
                 </div>
                 <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
                     <div style={{ width: "80%", height: 700, border: "solid black 1px" }} onKeyPress={this.handleKeyPress}>
-                        <div style={{width:"100%",display:"flex", height:700}}>
-                            <div id="original4xImgContainer" style={{ width: "50%", height: "100%", border: "solid green 1px" }}>
-                                <img id="original4xImg" src={this.state.src} style={{ width: "75%", height: 460, position: "relative", top: this.state.top, left: this.state.left, filter: (this.state.filter === "brightness") ? "brightness(" + this.state.brightness + "%)" : "blur(" + this.state.blur + ")" }} alt="Comb under microscope" />
+                        <div style={{ width: "100%", display: "flex", height: 700 }}>
+                            <div id="original4xImgContainer" style={{ width: "50%", height: "100%", border: "solid black 1px" }}>
+                                <img id="original4xImg" src={this.state.src} style={{ width: "75%", height: 402, position: "relative", top: this.state.top, left: this.state.left, filter: (this.state.filter === "brightness") ? "brightness(" + this.state.brightness + "%)" : "blur(" + this.state.blur + ")" }} alt="Comb under microscope" />
                             </div>
-                            <div id="zoom4xImgContainer" style={{ width: "50%", height: "100%", border: "solid green 1px", overflow:"scroll" }}>
-                                <img id="zooml4xImg" src={specimen1} style={{ height: 460, position: "relative", top: this.state.top, left: this.state.left, filter: (this.state.filter === "brightness") ? "brightness(" + this.state.brightness + "%)" : "blur(" + this.state.blur + ")",transform:"scale("+this.state.zoom+")" }} alt="Comb under microscope" />
+                            <div id="zoom4xImgContainer" style={{ width: "50%", height: "100%", border: "solid black 1px", display: "flex", justifyContent: "center" }}>
+                                <div style={{ height: 402, width: "75%", overflow: "scroll", position: "relative", top: "120px" }}>
+                                    <img id="zooml4xImg" src={specimen1} style={{ width: "100%", transform: "scale(" + this.state.zoom + ")" }} alt="Comb under microscope" />
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-                    <div style={{ width: "225px", display: "flex", justifyContent: "space-around", margin: 5 }}>
-                        <div>Brightness: {this.state.brightness}%</div>
-                        <button id="incBrightness" onClick={this.handleChange} type="button">Up</button>
-                        <button id="decBrightness" onClick={this.handleChange} type="button">Down</button>
-                    </div>
-                    <div style={{ width: "245px", display: "flex", justifyContent: "space-around", margin: 5 }}>
-                        <div>Move: </div>
-                        <button id="top" onClick={this.handleChange} type="button">Top</button>
-                        <button id="left" onClick={this.handleChange} type="button">Left</button>
-                        <button id="right" onClick={this.handleChange} type="button">Right</button>
-                        <button id="down" onClick={this.handleChange} type="button">Down</button>
-                    </div>
+                    <div style={{ width: "80%", marginTop:5}}>
+                        <div style={{ width: "50%", display: "flex", justifyContent: "center"}}>
+                            <div style={{ width: "225px", display: "flex", justifyContent: "space-around", margin: 5 }}>
+                                <div>Brightness: {this.state.brightness}%</div>
+                                <button id="incBrightness" onClick={this.handleChange} type="button">Up</button>
+                                <button id="decBrightness" onClick={this.handleChange} type="button">Down</button>
+                            </div>
+                            <div style={{ width: "245px", display: "flex", justifyContent: "space-around", margin: 5 }}>
+                                <div>Move: </div>
+                                <button id="top" onClick={this.handleChange} type="button">Top</button>
+                                <button id="left" onClick={this.handleChange} type="button">Left</button>
+                                <button id="right" onClick={this.handleChange} type="button">Right</button>
+                                <button id="down" onClick={this.handleChange} type="button">Down</button>
+                            </div>
 
-                    <div style={{ width: "130px", display: "flex", justifyContent: "space-around", margin: 5 }}>
-                        <button id="focus" onClick={this.handleChange} type="button">Focus/Unfocus</button>
+                            <div style={{ width: "130px", display: "flex", justifyContent: "space-around", margin: 5 }}>
+                                <button id="focus" onClick={this.handleChange} type="button">Focus/Unfocus</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
