@@ -6,7 +6,7 @@ import specimen3 from "./imgs/thumbnail_Scale_40X.jpg";
 export default class MicroscopeContainer extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { top: 100, right: 25, brightness: 100, blur: "4px", lens: "4x", src: specimen1, filter: "blur"}
+        this.state = { top: 100, right: 25, brightness: 100, blur: "4px", lens: "4x", src: specimen1, filter: "blur" }
     }
 
     handleChange = event => {
@@ -78,24 +78,24 @@ export default class MicroscopeContainer extends React.Component {
         }
         else if (event.target.id === "4x") {
             this.setState({
-                lens: "4x",
+                lens: "4xOriginal",
                 src: specimen1
             })
         }
         else if (event.target.id === "10x") {
             this.setState({
-                lens: "10x",
+                lens: "10xOriginal",
                 src: specimen2
             })
         }
         else if (event.target.id === "40x") {
             this.setState({
-                lens: "40x",
+                lens: "40xOriginal",
                 src: specimen3
             })
         }
         else if (event.target.id === "focus") {
-            if(this.state.filter==="blur") {
+            if (this.state.filter === "blur") {
                 //if button clicked under blur state, unblur
                 this.setState({
                     blur: "0px",
@@ -123,14 +123,40 @@ export default class MicroscopeContainer extends React.Component {
         // }
 
     };
-    
+
 
 
     render() {
         return (
             <div>
                 <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-                    <div style={{ width: "800px", height: "600px", border: "solid black 1px" }} onKeyPress={this.handleKeyPress}><img src={this.state.src} style={{ width: "450px", position: "relative", top: this.state.top, right: this.state.right, filter:(this.state.filter==="brightness") ? "brightness(" + this.state.brightness + "%)" : "blur(" + this.state.blur + ")" }} alt="Comb under microscope" />
+                    <div style={{ width: "80%", border: "solid black 1px", display: "flex" }}>
+                        <div style={{ width: "50%", border: "solid black 1px", textAlign: "left", display:"flex" }}>
+                            <div style={{ margin: 10 }}><b>Original:</b></div>
+                            <div style={{ width: "170px", display: "flex", justifyContent: "space-around", margin: 5 }}>
+                                <div style={{ display:"flex", justifyContent:"center", flexDirection:"column"}}>Lens: </div>
+                                <button id="4xOriginal" onClick={this.handleChange} type="button">4x</button>
+                                <button id="10xOriginal" onClick={this.handleChange} type="button">10x</button>
+                                <button id="40xOriginal" onClick={this.handleChange} type="button">40x</button>
+                            </div>
+                        </div>
+                        <div style={{ width: "50%", border: "solid black 1px", textAlign: "left", display:"flex" }}>
+                            <div style={{ margin: 10 }}><b>Zoom:</b></div>
+                            <div style={{ width: "170px", display: "flex", justifyContent: "space-around", margin: 5 }}>
+                                <div style={{ display:"flex", justifyContent:"center", flexDirection:"column"}}>Lens: </div>
+                                <button id="4xZoom" onClick={this.handleChange} type="button">4x</button>
+                                <button id="10xZoom" onClick={this.handleChange} type="button">10x</button>
+                                <button id="40xZoom" onClick={this.handleChange} type="button">40x</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+                    <div style={{ width: "80%", height: 700, border: "solid black 1px" }} onKeyPress={this.handleKeyPress}>
+                        <div style={{ width: "50%", height: "100%", border: "solid black 1px" }}>
+                            <img src={this.state.src} style={{ width: "75%", position: "relative", top: this.state.top, right: this.state.right, filter: (this.state.filter === "brightness") ? "brightness(" + this.state.brightness + "%)" : "blur(" + this.state.blur + ")" }} alt="Comb under microscope" />
+                        </div>
                     </div>
                 </div>
                 <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
@@ -146,12 +172,7 @@ export default class MicroscopeContainer extends React.Component {
                         <button id="right" onClick={this.handleChange} type="button">Right</button>
                         <button id="down" onClick={this.handleChange} type="button">Down</button>
                     </div>
-                    <div style={{ width: "170px", display: "flex", justifyContent: "space-around", margin: 5 }}>
-                        <div>Lens: </div>
-                        <button id="4x" onClick={this.handleChange} type="button">4x</button>
-                        <button id="10x" onClick={this.handleChange} type="button">10x</button>
-                        <button id="40x" onClick={this.handleChange} type="button">40x</button>
-                    </div>
+
                     <div style={{ width: "130px", display: "flex", justifyContent: "space-around", margin: 5 }}>
                         <button id="focus" onClick={this.handleChange} type="button">Focus/Unfocus</button>
                     </div>
