@@ -1,4 +1,5 @@
 import React from 'react';
+import useRef from 'react';
 import specimen1 from "./imgs/thumbnail_Scale_4X.jpg";
 import specimen2 from "./imgs/thumbnail_Scale_10X.jpg";
 import specimen3 from "./imgs/thumbnail_Scale_40X.jpg";
@@ -6,10 +7,37 @@ import specimen3 from "./imgs/thumbnail_Scale_40X.jpg";
 export default class MicroscopeContainer extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { top: 100, right: 25, brightness: 100, blur: "4px", lens: "4x", src: specimen1, filter: "blur" }
+        this.state = { top: 120, left: 0, brightness: 100, blur: "4px", lens: "4x", src: specimen1, filter: "blur", zoom: 1}
+
     }
 
+    componentDidMount() {
+        // var centerLeftPos = (document.getElementById("original4ximgContainer").width)/2 - (document.getElementById("original4ximg").width)/2;
+        // let positionRefs = useRef([]);
+        // positionRefs.current = [0,0].map(
+        //     (ref, index) =>   positionRefs.current[index] = React.createref()
+        // )
+        // var centerLeftPos = this.imgRef.current.width;
+        // var centerTopPos = this.imgRef.current.height;
+        // console.log(centerLeftPos,"& ", centerTopPos);
+        // console.log("wid:", this.containerRef.width, "height: ",this.containerRef.height)
+        // // var centerTopPos = (document.getElementById("original4ximgContainer").height)/2 - (document.getElementById("original4ximg").height)/2;
+        // // console.log("centerLeft: ",centerLeftPos," centerTop:", centerTopPos);
+        // this.setState({
+        //     top: centerTopPos,
+        //     left:centerLeftPos
+        // })
+    }
+
+
+
     handleChange = event => {
+        var leftLimit = (document.getElementById("original4xImgContainer").scrollWidth) / 2 - (document.getElementById("original4xImg").scrollWidth) / 2;
+        var topLimit = (document.getElementById("original4xImgContainer").scrollHeight) / 2 - (document.getElementById("original4xImg").scrollHeight) / 2;
+
+
+        console.log(topLimit, " x ", leftLimit)
+
         if (event.target.id === "top") {
             console.log("move up")
             let newTop = this.state.top - 5;
@@ -22,26 +50,26 @@ export default class MicroscopeContainer extends React.Component {
         }
         else if (event.target.id === "left") {
             console.log("move left")
-            let newRight = this.state.right + 5;
-            if (Math.abs(newRight) <= 175) {
+            let newLeft = this.state.left - 5;
+            if (newLeft >= -leftLimit) {
                 this.setState({
-                    right: newRight
+                    left: newLeft
                 })
             }
         }
         else if (event.target.id === "right") {
             console.log("move right")
-            let newRight = this.state.right - 5;
-            if (Math.abs(newRight) <= 175) {
+            let newRight = this.state.left + 5;
+            if (newRight <= leftLimit) {
                 this.setState({
-                    right: newRight
+                    left: newRight
                 })
             }
         }
         else if (event.target.id === "down") {
             console.log("move down")
             let newTop = this.state.top + 5;
-            if (newTop <= 240) {
+            if (newTop <= topLimit * 2) {
                 this.setState({
                     top: newTop
                 })
@@ -76,22 +104,32 @@ export default class MicroscopeContainer extends React.Component {
             //     })
             // }
         }
-        else if (event.target.id === "4x") {
+        else if (event.target.id === "4xOriginal") {
             this.setState({
                 lens: "4xOriginal",
                 src: specimen1
             })
         }
-        else if (event.target.id === "10x") {
+        else if (event.target.id === "10xOriginal") {
             this.setState({
                 lens: "10xOriginal",
                 src: specimen2
             })
         }
-        else if (event.target.id === "40x") {
+        else if (event.target.id === "40xOriginal") {
             this.setState({
                 lens: "40xOriginal",
                 src: specimen3
+            })
+        }
+        else if (event.target.id === "4xZoom") {
+            this.setState({
+                zoom: 1
+            })
+        }
+        else if (event.target.id === "10xZoom") {
+            this.setState({
+                zoom: 6
             })
         }
         else if (event.target.id === "focus") {
@@ -126,24 +164,26 @@ export default class MicroscopeContainer extends React.Component {
 
 
 
+
+
     render() {
         return (
             <div>
                 <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
                     <div style={{ width: "80%", border: "solid black 1px", display: "flex" }}>
-                        <div style={{ width: "50%", border: "solid black 1px", textAlign: "left", display:"flex" }}>
+                        <div style={{ width: "50%", border: "solid black 1px", textAlign: "left", display: "flex" }}>
                             <div style={{ margin: 10 }}><b>Original:</b></div>
                             <div style={{ width: "170px", display: "flex", justifyContent: "space-around", margin: 5 }}>
-                                <div style={{ display:"flex", justifyContent:"center", flexDirection:"column"}}>Lens: </div>
+                                <div style={{ display: "flex", justifyContent: "center", flexDirection: "column" }}>Lens: </div>
                                 <button id="4xOriginal" onClick={this.handleChange} type="button">4x</button>
                                 <button id="10xOriginal" onClick={this.handleChange} type="button">10x</button>
                                 <button id="40xOriginal" onClick={this.handleChange} type="button">40x</button>
                             </div>
                         </div>
-                        <div style={{ width: "50%", border: "solid black 1px", textAlign: "left", display:"flex" }}>
+                        <div style={{ width: "50%", border: "solid black 1px", textAlign: "left", display: "flex" }}>
                             <div style={{ margin: 10 }}><b>Zoom:</b></div>
                             <div style={{ width: "170px", display: "flex", justifyContent: "space-around", margin: 5 }}>
-                                <div style={{ display:"flex", justifyContent:"center", flexDirection:"column"}}>Lens: </div>
+                                <div style={{ display: "flex", justifyContent: "center", flexDirection: "column" }}>Lens: </div>
                                 <button id="4xZoom" onClick={this.handleChange} type="button">4x</button>
                                 <button id="10xZoom" onClick={this.handleChange} type="button">10x</button>
                                 <button id="40xZoom" onClick={this.handleChange} type="button">40x</button>
@@ -154,8 +194,13 @@ export default class MicroscopeContainer extends React.Component {
                 </div>
                 <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
                     <div style={{ width: "80%", height: 700, border: "solid black 1px" }} onKeyPress={this.handleKeyPress}>
-                        <div style={{ width: "50%", height: "100%", border: "solid black 1px" }}>
-                            <img src={this.state.src} style={{ width: "75%", position: "relative", top: this.state.top, right: this.state.right, filter: (this.state.filter === "brightness") ? "brightness(" + this.state.brightness + "%)" : "blur(" + this.state.blur + ")" }} alt="Comb under microscope" />
+                        <div style={{width:"100%",display:"flex", height:700}}>
+                            <div id="original4xImgContainer" style={{ width: "50%", height: "100%", border: "solid green 1px" }}>
+                                <img id="original4xImg" src={this.state.src} style={{ width: "75%", height: 460, position: "relative", top: this.state.top, left: this.state.left, filter: (this.state.filter === "brightness") ? "brightness(" + this.state.brightness + "%)" : "blur(" + this.state.blur + ")" }} alt="Comb under microscope" />
+                            </div>
+                            <div id="zoom4xImgContainer" style={{ width: "50%", height: "100%", border: "solid green 1px" }}>
+                                <img id="zooml4xImg" src={specimen1} style={{ height: 460, position: "relative", top: this.state.top, left: this.state.left, filter: (this.state.filter === "brightness") ? "brightness(" + this.state.brightness + "%)" : "blur(" + this.state.blur + ")",zoom:this.state.zoom }} alt="Comb under microscope" />
+                            </div>
                         </div>
                     </div>
                 </div>
