@@ -7,38 +7,45 @@ gsap.registerPlugin(Draggable);
 export default class Dial extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { angle: 0}
-        this.dragged =  this.dragged.bind(this);
+        this.state = { angle: 0 }
+        this.dragged = this.dragged.bind(this);
+        this.dial = React.createRef();
     }
 
-   
+
 
     dragged() {
-       let rotation = Draggable.get(".draggable").rotation;
-       let angle = Math.round(rotation);
-       this.setState({angle:angle});
-       console.log("rotation: ",rotation)
-       console.log("angle: ",this.state.angle);
-    //    this.getAngle(rotation,this.calculateSpinCounter(rotation));
-       
+        let rotation = Draggable.get(this.dial.current).rotation;
+        let angle = Math.round(rotation);
+        this.setState({ angle: angle });
+        console.log("rotation: ", rotation)
+        console.log("angle: ", this.state.angle);
+        //    this.getAngle(rotation,this.calculateSpinCounter(rotation));
+
     }
 
 
 
     componentDidMount() {
 
-        this.myDial = Draggable.create(".draggable", {
+        let myDial = Draggable.create(this.dial.current, {
             type: "rotation",
             inertia: "true",
             onPress: function () {
                 console.log("clicked");
             },
-            onDrag: function() {
+            onDrag: function () {
                 // console.log("rotated: ",this.rotation);
             },
             onDragEnd: this.dragged,
-            bounds:{minRotation:0, maxRotation:360}
+            bounds: { minRotation: 0, maxRotation: 360 }
         });
+
+        gsap.set(this.dial.current, { rotation: this.props.rotation });
+
+        Draggable.get(this.dial.current).update();
+
+
 
 
         // this.setState({rotation: this.myDial.rotation})
@@ -48,12 +55,13 @@ export default class Dial extends React.Component {
 
     render() {
         return (
-            <div style={{ textAlign: "left" }}>
-                <div className="draggable" style={{ width: 200, height: 200, border: "solid black 1px", borderRadius: "50%", display: "flex", justifyContent: "center" }}>
-                    <div style={{ width: 25, height: 35, backgroundColor: "green"}}></div>
+            <React.Fragment>
+                <div style={{transform: "rotate(180deg)", width:this.props.dialStyle.width}}>
+                    <div ref={this.dial} style={this.props.dialStyle}>
+                        <div style={this.props.pointerStyle}></div>
+                    </div>
                 </div>
-                <div style={{ marginLeft: 95, marginTop: 5 }}>{this.state.angle}</div>
-            </div>
+            </React.Fragment>
         );
     }
 }
