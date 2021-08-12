@@ -56,7 +56,7 @@ export default class Dial extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <div style={{transform: "rotate(180deg)", width:this.props.dialStyle.width}}>
+                <div style={{transform: "rotate(180deg)", width:this.props.dialStyle.width, marginTop:15, marginBottom:15}}>
                     <div ref={this.dial} style={this.props.dialStyle}>
                         <div style={this.props.pointerStyle}></div>
                     </div>

@@ -8,17 +8,26 @@ let styles = {
             width: 200, height: 200, border: "solid #373737 5px", borderRadius: "50%", display: "flex", justifyContent: "center", backgroundColor: "#111111", boxSizing: "border-box"
         },
         pointer: {
-            width: 12, height: 35, backgroundColor: "#373737"
+            width: 12, height: 24, backgroundColor: "#373737"
         }
     },
     fineFocus: {
         dial: {
-            width: 150, height: 150, border: "solid #373737 5px", borderRadius: "50%", display: "flex", justifyContent: "center", backgroundColor: "#494949", boxSizing: "border-box"
+            width: 130, height: 130, border: "solid #373737 5px", borderRadius: "50%", display: "flex", justifyContent: "center", backgroundColor: "#494949", boxSizing: "border-box"
         },
         pointer: {
-            width: 18, height: 18, backgroundColor: "#D8D8D8", borderRadius: "50%"
+            width: 17, height: 17, backgroundColor: "#D8D8D8", borderRadius: "50%"
         }
-    }
+    },
+    verticalStage: {
+        dial: {
+            width: 130, height: 130, border: "solid #373737 5px", borderRadius: "50%", display: "flex", justifyContent: "center", backgroundColor: "#111111", boxSizing: "border-box"
+        },
+        pointer: {
+            width: 12, height: 24, backgroundColor: "#373737"
+        }
+    },
+
 }
 
 export default class Dials extends React.Component {
@@ -30,8 +39,18 @@ export default class Dials extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <Dial dialStyle={styles.coarseFocus.dial} pointerStyle={styles.coarseFocus.pointer} rotation="45" />
-                <Dial dialStyle={styles.fineFocus.dial} pointerStyle={styles.fineFocus.pointer} rotation="207" />
+                <div style={{ display: "flex", flexDirection: "column", width: 200, alignItems: "center", border: "solid red 1px", float: "right", marginTop: 200, marginRight: 60 }}>
+                    <div style={{ fontSize: "1.15em", color: "#d2d2d2" }}>Focus Knobs</div>
+                    <Dial dialStyle={styles.coarseFocus.dial} pointerStyle={styles.coarseFocus.pointer} rotation="45" />
+                    <div style={{ position: "relative", top: 0, transform: "translateY(-195px)" }}>
+                        <Dial dialStyle={styles.fineFocus.dial} pointerStyle={styles.fineFocus.pointer} rotation="207" />
+                    </div>
+                    <div style={{transform:"translateY(-135px)"}}>
+                        <div style={{ fontSize: "1.15em", marginTop: 20, color: "#d2d2d2" }}>Stage Knobs</div>
+                        <Dial dialStyle={styles.verticalStage.dial} pointerStyle={styles.verticalStage.pointer} rotation="105" />
+                        <Dial dialStyle={styles.fineFocus.dial} pointerStyle={styles.fineFocus.pointer} rotation="301" />
+                    </div>
+                </div>
             </React.Fragment>
         )
     }
