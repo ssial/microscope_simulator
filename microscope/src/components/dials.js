@@ -34,21 +34,33 @@ export default class Dials extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            angle: null,
+            direction: ""
+        }
     }
+
+    dialsCallback = (angleData) => {
+        console.log(angleData)
+        this.setState({angle: angleData.angle, direction: angleData.direction})
+        this.props.callback(this.state);
+    }
+
+  
 
     render() {
         return (
             <React.Fragment>
-                <div style={{ display: "flex", flexDirection: "column", width: 200, alignItems: "center", border: "solid red 1px", float: "right", marginTop: 200, marginRight: 60 }}>
+                <div style={{ display: "flex", flexDirection: "column", width: 200, alignItems: "center",float: "right", marginTop: 200, marginRight: 60 }}>
                     <div style={{ fontSize: "1.15em", color: "#d2d2d2" }}>Focus Knobs</div>
-                    <Dial dialStyle={styles.coarseFocus.dial} pointerStyle={styles.coarseFocus.pointer} rotation="45" />
+                    <Dial dialStyle={styles.coarseFocus.dial} pointerStyle={styles.coarseFocus.pointer} rotation="45" name="coarseFocus" />
                     <div style={{ position: "relative", top: 0, transform: "translateY(-195px)" }}>
-                        <Dial dialStyle={styles.fineFocus.dial} pointerStyle={styles.fineFocus.pointer} rotation="207" />
+                        <Dial dialStyle={styles.fineFocus.dial} pointerStyle={styles.fineFocus.pointer} rotation="207"  name="fineFocus"  />
                     </div>
                     <div style={{transform:"translateY(-135px)"}}>
                         <div style={{ fontSize: "1.15em", marginTop: 20, color: "#d2d2d2" }}>Stage Knobs</div>
-                        <Dial dialStyle={styles.verticalStage.dial} pointerStyle={styles.verticalStage.pointer} rotation="105" />
-                        <Dial dialStyle={styles.fineFocus.dial} pointerStyle={styles.fineFocus.pointer} rotation="301" />
+                        <Dial dialStyle={styles.verticalStage.dial} pointerStyle={styles.verticalStage.pointer} rotation="105"  name="verticalStage" callback={this.dialsCallback}/>
+                        <Dial dialStyle={styles.fineFocus.dial} pointerStyle={styles.fineFocus.pointer} rotation="301" name="horizontalStage"/>
                     </div>
                 </div>
             </React.Fragment>
