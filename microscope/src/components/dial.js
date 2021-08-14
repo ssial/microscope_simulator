@@ -23,9 +23,13 @@ export default class Dial extends React.Component {
     dragged() {
         let rotation = Draggable.get(this.dial.current).rotation;
         let angle = Math.round(rotation);
+        let data = {
+            state: this.state,
+            name: this.props.name
+        }
         this.setState({ angle: angle, direction: Draggable.get(this.dial.current).getDirection()});
-        this.props.callback(this.state);
-  
+        this.props.callback(data);
+
         // console.log("rotation: ", rotation)
         // console.log("angle: ", this.state.angle);
 
@@ -59,9 +63,6 @@ export default class Dial extends React.Component {
         gsap.set(this.dial.current, { rotation: this.props.rotation });
 
         Draggable.get(this.dial.current).update();
-
-
-
 
         // this.setState({rotation: this.myDial.rotation})
 
