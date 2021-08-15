@@ -7,11 +7,11 @@ export default class LensView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            angle: null, yOffset: 0, direction: ""
+            angle: null, yOffset: 0, direction: "", xOffset: 0
         }
     }
 
-    calculateVerticalOffset() {
+    calculateOffset(name) {
         let offset = 0;
         let angle = this.state.angle;
         // if (angle) {
@@ -30,14 +30,20 @@ export default class LensView extends React.Component {
         }
 
         // }
-        this.setState({ yOffset: offset })
+        if(name === "verticalStage" ) {
+            this.setState({ yOffset: offset })
+        }
+        else {
+            this.setState({ xOffset: offset })
+        }
+        
         console.log("angle: ", angle, " offset: ", offset, " direction: ", this.state.direction);
     }
 
     dialsCallback = (angleData) => {
         this.setState({ angle: angleData.state.angle, direction: angleData.state.direction })
-        if (angleData.name === "verticalStage") {
-            this.calculateVerticalOffset();
+        if (angleData.name === "verticalStage" || "horizontalStage") {
+            this.calculateOffset(angleData.name);
         }
 
     }
@@ -45,7 +51,7 @@ export default class LensView extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <ViewCircle angle={this.state.angle} yOffset={this.state.yOffset} />
+                <ViewCircle angle={this.state.angle} yOffset={this.state.yOffset} xOffset={this.state.xOffset} />
 
                 <Dials callback={this.dialsCallback} />
 
