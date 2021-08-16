@@ -27,7 +27,7 @@ export default class Dial extends React.Component {
             state: this.state,
             name: this.props.name
         }
-        this.setState({ angle: angle, direction: Draggable.get(this.dial.current).getDirection()});
+        this.setState({ angle: angle, direction: Draggable.get(this.dial.current).getDirection() });
         this.props.callback(data);
 
         // console.log("rotation: ", rotation)
@@ -40,8 +40,16 @@ export default class Dial extends React.Component {
         //     console.log("CO ");
         // }
 
-    
 
+
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.rotation !== prevProps.rotation) {
+            gsap.set(this.dial.current, { rotation: this.props.rotation });
+
+            Draggable.get(this.dial.current).update();
+        }
     }
 
 
@@ -72,7 +80,7 @@ export default class Dial extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <div style={{transform: "rotate(180deg)", width:this.props.dialStyle.width, marginTop:15, marginBottom:15}}>
+                <div style={{ transform: "rotate(180deg)", width: this.props.dialStyle.width, marginTop: 15, marginBottom: 15 }}>
                     <div ref={this.dial} style={this.props.dialStyle}>
                         <div style={this.props.pointerStyle}></div>
                     </div>

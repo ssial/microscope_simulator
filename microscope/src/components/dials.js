@@ -53,14 +53,14 @@ export default class Dials extends React.Component {
             <React.Fragment>
                 <div style={{ display: "flex", flexDirection: "column", width: 200, alignItems: "center",float: "right", marginTop: 200, marginRight: 60 }}>
                     <div style={{ fontSize: "1.15em", color: "#d2d2d2" }}>Focus Knobs</div>
-                    <Dial dialStyle={styles.coarseFocus.dial} pointerStyle={styles.coarseFocus.pointer} rotation="45" name="coarseFocus" callback={this.dialsCallback}/>
+                    <Dial dialStyle={styles.coarseFocus.dial} pointerStyle={styles.coarseFocus.pointer} rotation={this.props.rotationC} name="coarseFocus" callback={this.dialsCallback}/>
                     <div style={{ position: "relative", top: 0, transform: "translateY(-195px)" }}>
-                        <Dial dialStyle={styles.fineFocus.dial} pointerStyle={styles.fineFocus.pointer} rotation="207"  name="fineFocus" callback={this.dialsCallback} />
+                        <Dial dialStyle={styles.fineFocus.dial} pointerStyle={styles.fineFocus.pointer} rotation={this.props.rotationF}  name="fineFocus" callback={this.dialsCallback} />
                     </div>
                     <div style={{transform:"translateY(-135px)"}}>
                         <div style={{ fontSize: "1.15em", marginTop: 20, color: "#d2d2d2" }}>Stage Knobs</div>
-                        <Dial dialStyle={styles.verticalStage.dial} pointerStyle={styles.verticalStage.pointer} rotation="105"  name="verticalStage" callback={this.dialsCallback}/>
-                        <Dial dialStyle={styles.fineFocus.dial} pointerStyle={styles.fineFocus.pointer} rotation="301" name="horizontalStage" callback={this.dialsCallback}/>
+                        <Dial dialStyle={styles.verticalStage.dial} pointerStyle={styles.verticalStage.pointer} rotation={this.props.rotationV}  name="verticalStage" callback={this.dialsCallback}/>
+                        <Dial dialStyle={styles.fineFocus.dial} pointerStyle={styles.fineFocus.pointer} rotation={this.props.rotationH} name="horizontalStage" callback={this.dialsCallback}/>
                     </div>
                 </div>
             </React.Fragment>

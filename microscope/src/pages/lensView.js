@@ -7,12 +7,26 @@ export default class LensView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            angle: null, yOffset: 0, direction: "", xOffset: 0, blur: 0
+            angle: null, yOffset: 0, direction: "", xOffset: 0, blur: 0, rotationC: 0, rotationF: 0, rotationV: 0, rotationH: 0
         }
     }
 
-    calculateCoarseFocus() {
-        let angle = this.state.angle;
+    componentDidMount() {
+        let idealAngleC = 135;
+        let idealAngleF = 225;
+        let rotationV = 135;
+        let rotationH = 45;
+        let rotationC = 270;
+        let rotationF = 225;
+        this.setState({rotationC: rotationC, rotationF: rotationF, rotationH: rotationH, rotationV: rotationV})
+        let yOffset = this.calculateOffset("verticalStage",rotationV);
+        let xOffset = this.calculateOffset("horizontalStage",rotationH);
+        let blur = this.calculateCoarseFocus(rotationC);
+       
+    }
+
+    calculateCoarseFocus(angle) {
+        // let angle = this.state.angle;
         const idealAngle = 135;
         const idealVal = 0.5;
         let blur = 0;
@@ -41,8 +55,8 @@ export default class LensView extends React.Component {
         this.setState({ blur: blur });
     }
 
-    calculateFineFocus() {
-        let angle = this.state.angle;
+    calculateFineFocus(angle) {
+        // let angle = this.state.angle;
         const idealAngle = 225;
         const idealVal = 0;
         let blur = 0;
@@ -65,9 +79,9 @@ export default class LensView extends React.Component {
         this.setState({ blur: blur });
     }
 
-    calculateOffset(name) {
+    calculateOffset(name, angle) {
         let offset = 0;
-        let angle = this.state.angle;
+        // let angle = this.state.angle;
         console.log("CALC OFFSET")
         // if (angle) {
         // if (this.state.direction == "clockwise"||"anti-clockwise") {
@@ -99,22 +113,22 @@ export default class LensView extends React.Component {
         this.setState({ angle: angleData.state.angle, direction: angleData.state.direction });
         console.log(angleData.name);
         if (angleData.name === "verticalStage" || angleData.name === "horizontalStage") {
-            this.calculateOffset(angleData.name);
+            this.calculateOffset(angleData.name, this.state.angle);
         }
         else if (angleData.name === "coarseFocus") {
-            this.calculateCoarseFocus();
+            this.calculateCoarseFocus(this.state.angle);
         }
         else if (angleData.name === "fineFocus") {
-            this.calculateFineFocus();
+            this.calculateFineFocus(this.state.angle);
         }
     }
 
     render() {
         return (
             <React.Fragment>
-                <ViewCircle angle={this.state.angle} yOffset={this.state.yOffset} xOffset={this.state.xOffset} blur={this.state.blur}/>
+                <ViewCircle angle={this.state.angle} yOffset={this.state.yOffset} xOffset={this.state.xOffset} blur={this.state.blur} />
 
-                <Dials callback={this.dialsCallback} />
+                <Dials callback={this.dialsCallback} rotationC={this.state.rotationC} rotationF={this.state.rotationF} rotationH={this.state.rotationH} rotationV={this.state.rotationV} />
 
             </React.Fragment>
         )
