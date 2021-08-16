@@ -22,7 +22,7 @@ export default class ViewCircle extends React.Component {
             <React.Fragment>
                 <div style={styles.outerCircle}>
                     <div style={styles.innerCircle}>
-                    <img style={{margin:"-20% -100%",maxHeight:"100vh",transform:`translateY(${this.props.yOffset}%) translateX(${this.props.xOffset}%)`}}src={specimen1}/>
+                    <img style={{margin:"-20% -100%",maxHeight:"100vh",transform:`translateY(${this.props.yOffset}%) translateX(${this.props.xOffset}%)`, filter:`blur(${this.props.blur}em)`}}src={specimen1}/>
                     </div>
                 </div>
             </React.Fragment>
