@@ -1,13 +1,14 @@
 import React from 'react';
 import Dials from '../components/dials'
 import ViewCircle from '../components/viewCircle'
+import Lenses from '../components/lenses'
 
 export default class LensView extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            angle: null, yOffset: 0, direction: "", xOffset: 0, blur: 0, rotationC: 0, rotationF: 0, rotationV: 0, rotationH: 0
+            angle: null, yOffset: 0, direction: "", xOffset: 0, blur: 0, rotationC: 0, rotationF: 0, rotationV: 0, rotationH: 0, scale: 1
         }
     }
 
@@ -15,9 +16,9 @@ export default class LensView extends React.Component {
         let idealAngleC = 135;
         let idealAngleF = 225;
         let rotationV = 135;
-        let rotationH = 45;
-        let rotationC = 270;
-        let rotationF = 225;
+        let rotationH = 100;
+        let rotationC = 225;
+        let rotationF = 100;
         this.setState({rotationC: rotationC, rotationF: rotationF, rotationH: rotationH, rotationV: rotationV})
         let yOffset = this.calculateOffset("verticalStage",rotationV);
         let xOffset = this.calculateOffset("horizontalStage",rotationH);
@@ -126,10 +127,11 @@ export default class LensView extends React.Component {
     render() {
         return (
             <React.Fragment>
+                 <Lenses/>
                 <ViewCircle angle={this.state.angle} yOffset={this.state.yOffset} xOffset={this.state.xOffset} blur={this.state.blur} />
 
                 <Dials callback={this.dialsCallback} rotationC={this.state.rotationC} rotationF={this.state.rotationF} rotationH={this.state.rotationH} rotationV={this.state.rotationV} />
-
+               
             </React.Fragment>
         )
     }

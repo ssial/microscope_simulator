@@ -51,7 +51,7 @@ export default class Dials extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <div style={{ display: "flex", flexDirection: "column", width: 200, alignItems: "center",float: "right", marginTop: 200, marginRight: 60 }}>
+                <div style={{ display: "flex", flexDirection: "column", width: 200, alignItems: "center",float: "right", marginTop: 140, marginRight: 60 }}>
                     <div style={{ fontSize: "1.15em", color: "#d2d2d2" }}>Focus Knobs</div>
                     <Dial dialStyle={styles.coarseFocus.dial} pointerStyle={styles.coarseFocus.pointer} rotation={this.props.rotationC} name="coarseFocus" callback={this.dialsCallback}/>
                     <div style={{ position: "relative", top: 0, transform: "translateY(-195px)" }}>
