@@ -33,6 +33,14 @@
   color:#313131 !important;
 }
 
+.checked {
+  opacity: 1;
+}
+
+.unchecked {
+  opacity: 0;
+}
+
 .App-link {
   color: #61dafb;
 }

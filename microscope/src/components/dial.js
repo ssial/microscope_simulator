@@ -39,9 +39,6 @@ export default class Dial extends React.Component {
         // else {
         //     console.log("CO ");
         // }
-
-
-
     }
 
     componentDidUpdate(prevProps) {
@@ -51,8 +48,6 @@ export default class Dial extends React.Component {
             Draggable.get(this.dial.current).update();
         }
     }
-
-
 
     componentDidMount() {
 

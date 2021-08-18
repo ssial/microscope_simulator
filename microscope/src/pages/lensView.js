@@ -2,6 +2,7 @@ import React from 'react';
 import Dials from '../components/dials'
 import ViewCircle from '../components/viewCircle'
 import Lenses from '../components/lenses'
+import Checklist from '../components/checklist'
 
 export default class LensView extends React.Component {
 
@@ -23,7 +24,6 @@ export default class LensView extends React.Component {
         let yOffset = this.calculateOffset("verticalStage", rotationV);
         let xOffset = this.calculateOffset("horizontalStage", rotationH);
         let blur = this.calculateCoarseFocus(rotationC);
-
     }
 
     calculateCoarseFocus(angle) {
@@ -142,11 +142,10 @@ export default class LensView extends React.Component {
     render() {
         return (
             <React.Fragment>
+                <Checklist/>
                 <Lenses callback={this.lensesCallback} />
                 <ViewCircle angle={this.state.angle} yOffset={this.state.yOffset} xOffset={this.state.xOffset} blur={this.state.blur} scale={this.state.scale} />
-
                 <Dials callback={this.dialsCallback} rotationC={this.state.rotationC} rotationF={this.state.rotationF} rotationH={this.state.rotationH} rotationV={this.state.rotationV} />
-
             </React.Fragment>
         )
     }
