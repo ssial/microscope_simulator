@@ -46,8 +46,8 @@ export default class LensView extends React.Component {
             blur = ((distance - (percentage * distance)) + idealVal).toFixed(2);
         }
 
-        const minIdeal = idealAngle - 20;
-        const maxIdeal = idealAngle + 20;
+        const minIdeal = idealAngle - 10;
+        const maxIdeal = idealAngle + 10;
 
         if ((angle >= minIdeal) && (angle <= maxIdeal)) {
             this.setState({ coarseFocusCheck: "checked" })
@@ -80,8 +80,8 @@ export default class LensView extends React.Component {
             blur = ((distance - (percentage * distance)) + idealVal).toFixed(2);
         }
        
-        const minIdeal = idealAngle - 20;
-        const maxIdeal = idealAngle + 20;
+        const minIdeal = idealAngle - 10;
+        const maxIdeal = idealAngle + 10;
 
         if ((angle >= minIdeal) && (angle <= maxIdeal)) {
             this.setState({ fineFocusCheck: "checked" })
