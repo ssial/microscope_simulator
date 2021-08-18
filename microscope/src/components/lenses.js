@@ -29,7 +29,8 @@ export default class Lenses extends React.Component {
 
     handleClick(el) {
         if(this.state.activeLens !== el.target.id) {
-            this.setState({activeLens: el.target.id})
+            this.setState({activeLens: el.target.id});
+            this.props.callback(el.target.id);
         }
     }
 

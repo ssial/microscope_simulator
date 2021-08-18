@@ -8,7 +8,7 @@ export default class LensView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            angle: null, yOffset: 0, direction: "", xOffset: 0, blur: 0, rotationC: 0, rotationF: 0, rotationV: 0, rotationH: 0, scale: 1
+            angle: null, yOffset: 0, direction: "", xOffset: 0, blur: 0, rotationC: 0, rotationF: 0, rotationV: 0, rotationH: 0, scale: 1, activeLens: "fourX"
         }
     }
 
@@ -19,11 +19,11 @@ export default class LensView extends React.Component {
         let rotationH = 100;
         let rotationC = 225;
         let rotationF = 100;
-        this.setState({rotationC: rotationC, rotationF: rotationF, rotationH: rotationH, rotationV: rotationV})
-        let yOffset = this.calculateOffset("verticalStage",rotationV);
-        let xOffset = this.calculateOffset("horizontalStage",rotationH);
+        this.setState({ rotationC: rotationC, rotationF: rotationF, rotationH: rotationH, rotationV: rotationV })
+        let yOffset = this.calculateOffset("verticalStage", rotationV);
+        let xOffset = this.calculateOffset("horizontalStage", rotationH);
         let blur = this.calculateCoarseFocus(rotationC);
-       
+
     }
 
     calculateCoarseFocus(angle) {
@@ -51,7 +51,7 @@ export default class LensView extends React.Component {
             percentage = angleTemp / idealAngleTemp;
             blur = ((distance - (percentage * distance)) + idealVal).toFixed(2);
         }
-        console.log("blur: ", blur);
+        // console.log("blur: ", blur);
 
         this.setState({ blur: blur });
     }
@@ -75,44 +75,45 @@ export default class LensView extends React.Component {
             percentage = angleTemp / idealAngleTemp;
             blur = ((distance - (percentage * distance)) + idealVal).toFixed(2);
         }
-        console.log("blur: ", blur);
+        // console.log("blur: ", blur);
 
         this.setState({ blur: blur });
     }
 
     calculateOffset(name, angle) {
         let offset = 0;
-        // let angle = this.state.angle;
-        console.log("CALC OFFSET")
-        // if (angle) {
-        // if (this.state.direction == "clockwise"||"anti-clockwise") {
+
         if (angle >= 180) {
-            // offset = Math.round((angle / 360) * 100);
             offset = Math.round(100 - (((360 - angle) / 180) * 100));
         }
         else if (angle === 0) {
             offset = -100;
         }
         else {
-
-            // offset = Math.round((angle / 360) * -100);
             offset = Math.round((100 - ((angle / 180)) * 100) * -1);
         }
 
-        // }
-        if (name==="verticalStage") {
+        if (this.state.scale === 2.5) {
+            offset = offset * (2.5/2)
+        }
+        else if (this.state.scale === 10) {
+            offset = offset * (10/2)
+        }
+
+
+        if (name === "verticalStage") {
             this.setState({ yOffset: offset })
         }
-        else if ((name==="horizontalStage")) {
+        else if ((name === "horizontalStage")) {
             this.setState({ xOffset: offset })
         }
 
-        console.log("angle: ", angle, " offset: ", offset, " direction: ", this.state.direction);
+        // console.log("angle: ", angle, " offset: ", offset, " direction: ", this.state.direction);
     }
 
     dialsCallback = (angleData) => {
         this.setState({ angle: angleData.state.angle, direction: angleData.state.direction });
-        console.log(angleData.name);
+        // console.log(angleData.name);
         if (angleData.name === "verticalStage" || angleData.name === "horizontalStage") {
             this.calculateOffset(angleData.name, this.state.angle);
         }
@@ -124,14 +125,28 @@ export default class LensView extends React.Component {
         }
     }
 
+    lensesCallback = (activeLens) => {
+
+        this.setState({ activeLens: activeLens })
+        if (activeLens === "fourX") {
+            this.setState({ scale: 1 })
+        }
+        else if (activeLens === "tenX") {
+            this.setState({ scale: 2.5 })
+        }
+        else if (activeLens === "fourtyX") {
+            this.setState({ scale: 10 })
+        }
+    }
+
     render() {
         return (
             <React.Fragment>
-                 <Lenses/>
-                <ViewCircle angle={this.state.angle} yOffset={this.state.yOffset} xOffset={this.state.xOffset} blur={this.state.blur} />
+                <Lenses callback={this.lensesCallback} />
+                <ViewCircle angle={this.state.angle} yOffset={this.state.yOffset} xOffset={this.state.xOffset} blur={this.state.blur} scale={this.state.scale} />
 
                 <Dials callback={this.dialsCallback} rotationC={this.state.rotationC} rotationF={this.state.rotationF} rotationH={this.state.rotationH} rotationV={this.state.rotationV} />
-               
+
             </React.Fragment>
         )
     }
