@@ -24,13 +24,22 @@ export default class Checklist extends React.Component {
         super(props)
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.coarseFocusCheck !== prevProps.coarseFocusCheck) {
+            console.log("update - ", this.props.coarseFocusCheck)
+        }
+        if (this.props.fineFocusCheck !== prevProps.fineFocusCheck) {
+            console.log("update - ", this.props.fineFocusCheck)
+        }
+    }
+
     render() {
         return (
             <React.Fragment>
                 <div style={styles.container}>
                     <div style={styles.title}>Preperation Checklist</div>
-                    <div style={styles.item}><div style={styles.square}><img className="unchecked" style={styles.checkmark} src={checkmark} /></div>Coarse Focus</div>
-                    <div style={styles.item}><div style={styles.square}><img className="unchecked" style={styles.checkmark} src={checkmark} /></div>Fine Focus</div>
+                    <div style={styles.item}><div style={styles.square}><img className={this.props.coarseFocusCheck} style={styles.checkmark} src={checkmark} /></div>Coarse Focus</div>
+                    <div style={styles.item}><div style={styles.square}><img className={this.props.fineFocusCheck} style={styles.checkmark} src={checkmark} /></div>Fine Focus</div>
                     <div style={styles.item}><div style={styles.square}><img className="checked" style={styles.checkmark} src={checkmark} /></div>Iris Diaphragm</div>
                 </div>
             </React.Fragment>

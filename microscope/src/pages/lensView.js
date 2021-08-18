@@ -9,7 +9,7 @@ export default class LensView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            angle: null, yOffset: 0, direction: "", xOffset: 0, blur: 0, rotationC: 0, rotationF: 0, rotationV: 0, rotationH: 0, scale: 1, activeLens: "fourX"
+            angle: null, yOffset: 0, direction: "", xOffset: 0, blur: 0, rotationC: 0, rotationF: 0, rotationV: 0, rotationH: 0, scale: 1, activeLens: "fourX", coarseFocusCheck: "unchecked", fineFocusCheck: "unchecked"
         }
     }
 
@@ -36,22 +36,26 @@ export default class LensView extends React.Component {
         let percentage = 0;
 
         if (angle <= idealAngle) {
-            // fortyfiveDegreeIncrements = idealAngle / 45;
-            // maxVal = (idealVal * fortyfiveDegreeIncrements) + idealVal;
-            // distance = maxVal - idealVal;
             percentage = angle / idealAngle;
             blur = ((distance - (percentage * distance)) + idealVal).toFixed(2);
         }
         else {
             const angleTemp = 360 - angle;
             const idealAngleTemp = 360 - idealAngle;
-            // fortyfiveDegreeIncrements = idealAngleTemp / 45;
-            // maxVal = (idealVal * fortyfiveDegreeIncrements) + idealVal;
-            // distance = maxVal - idealVal;
             percentage = angleTemp / idealAngleTemp;
             blur = ((distance - (percentage * distance)) + idealVal).toFixed(2);
         }
-        // console.log("blur: ", blur);
+
+        const minIdeal = idealAngle - 20;
+        const maxIdeal = idealAngle + 20;
+
+        if ((angle >= minIdeal) && (angle <= maxIdeal)) {
+            this.setState({ coarseFocusCheck: "checked" })
+            console.log(this.state.coarseFocusCheck);
+        }
+        else {
+            this.setState({ coarseFocusCheck: "unchecked" })
+        }
 
         this.setState({ blur: blur });
     }
@@ -75,7 +79,17 @@ export default class LensView extends React.Component {
             percentage = angleTemp / idealAngleTemp;
             blur = ((distance - (percentage * distance)) + idealVal).toFixed(2);
         }
-        // console.log("blur: ", blur);
+       
+        const minIdeal = idealAngle - 20;
+        const maxIdeal = idealAngle + 20;
+
+        if ((angle >= minIdeal) && (angle <= maxIdeal)) {
+            this.setState({ fineFocusCheck: "checked" })
+            console.log(this.state.fineFocusCheck);
+        }
+        else {
+            this.setState({ fineFocusCheck: "unchecked" })
+        }
 
         this.setState({ blur: blur });
     }
@@ -94,10 +108,10 @@ export default class LensView extends React.Component {
         }
 
         if (this.state.scale === 2.5) {
-            offset = offset * (2.5/2)
+            offset = offset * (2.5 / 2)
         }
         else if (this.state.scale === 10) {
-            offset = offset * (10/2)
+            offset = offset * (10 / 2)
         }
 
 
@@ -142,7 +156,7 @@ export default class LensView extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <Checklist/>
+                <Checklist coarseFocusCheck={this.state.coarseFocusCheck} fineFocusCheck={this.state.fineFocusCheck}/>
                 <Lenses callback={this.lensesCallback} />
                 <ViewCircle angle={this.state.angle} yOffset={this.state.yOffset} xOffset={this.state.xOffset} blur={this.state.blur} scale={this.state.scale} />
                 <Dials callback={this.dialsCallback} rotationC={this.state.rotationC} rotationF={this.state.rotationF} rotationH={this.state.rotationH} rotationV={this.state.rotationV} />
