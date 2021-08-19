@@ -9,26 +9,47 @@ export default class LensView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            angle: null, yOffset: 0, direction: "", xOffset: 0, blur: 0, rotationC: 0, rotationF: 0, rotationV: 0, rotationH: 0, scale: 1, activeLens: "fourX", coarseFocusCheck: "unchecked", fineFocusCheck: "unchecked"
+            angle: null, yOffset: 0, direction: "", xOffset: 0, blur: 0, rotationC: 0, rotationF: 0, rotationV: 0, rotationH: 0, scale: 1, activeLens: "fourX", coarseFocusCheck: "unchecked", fineFocusCheck: "unchecked", idealAngleC: 0, idealAngleF: 0, currAngleC: 0, currAngleF: 0
         }
     }
 
-    componentDidMount() {
-        let idealAngleC = 135;
-        let idealAngleF = 225;
-        let rotationV = 135;
-        let rotationH = 100;
-        let rotationC = 225;
-        let rotationF = 100;
+    calculateIdealAngles() {
+        // Calculate random ideal angles on dial for coarse focus and fine focus between 135 - 225
+        let min = Math.ceil(135);
+        let max = Math.floor(225);
+        const idealAngleC = Math.floor(Math.random() * (max - min + 1) + min);
+        const idealAngleF = Math.floor(Math.random() * (max - min + 1) + min);
+        this.setState({ idealAngleC: idealAngleC, idealAngleF: idealAngleF });
+    }
+
+    setRandomOffsets() {
+
+        this.calculateIdealAngles();
+
+        let min = Math.ceil(0);
+        let max = Math.floor(360);
+
+        // calculating random dial positions for each dial
+        const rotationV = Math.floor(Math.random() * (max - min + 1) + min);
+        const rotationH = Math.floor(Math.random() * (max - min + 1) + min);
+        const rotationC = Math.floor(Math.random() * (max - min + 1) + min);
+        const rotationF = Math.floor(Math.random() * (max - min + 1) + min);
+
         this.setState({ rotationC: rotationC, rotationF: rotationF, rotationH: rotationH, rotationV: rotationV })
-        let yOffset = this.calculateOffset("verticalStage", rotationV);
-        let xOffset = this.calculateOffset("horizontalStage", rotationH);
-        let blur = this.calculateCoarseFocus(rotationC);
+        this.calculateOffset("verticalStage", rotationV);
+        this.calculateOffset("horizontalStage", rotationH);
+        this.calculateFineFocus(rotationF);
+        this.calculateCoarseFocus(rotationC);
+    }
+
+    componentDidMount() {
+        this.setRandomOffsets()
+
     }
 
     calculateCoarseFocus(angle) {
         // let angle = this.state.angle;
-        const idealAngle = 135;
+        const idealAngle = this.state.idealAngleC;
         const idealVal = 0.5;
         let blur = 0;
         let maxVal = 3;
@@ -49,20 +70,22 @@ export default class LensView extends React.Component {
         const minIdeal = idealAngle - 10;
         const maxIdeal = idealAngle + 10;
 
+        console.log("comparing angle ",angle," idealAngle ", idealAngle)
         if ((angle >= minIdeal) && (angle <= maxIdeal)) {
+            console.log("check");
             this.setState({ coarseFocusCheck: "checked" })
-            console.log(this.state.coarseFocusCheck);
         }
         else {
+            console.log("uncheck");
             this.setState({ coarseFocusCheck: "unchecked" })
         }
 
-        this.setState({ blur: blur });
+        this.setState({ blur: blur, currAngleC: angle });
     }
 
     calculateFineFocus(angle) {
         // let angle = this.state.angle;
-        const idealAngle = 225;
+        const idealAngle = this.state.idealAngleF;
         const idealVal = 0;
         let blur = 0;
         let maxVal = 0.5;
@@ -79,19 +102,21 @@ export default class LensView extends React.Component {
             percentage = angleTemp / idealAngleTemp;
             blur = ((distance - (percentage * distance)) + idealVal).toFixed(2);
         }
-       
+
         const minIdeal = idealAngle - 10;
         const maxIdeal = idealAngle + 10;
 
+        console.log("comparing angle ",angle," idealAngle ", idealAngle)
         if ((angle >= minIdeal) && (angle <= maxIdeal)) {
             this.setState({ fineFocusCheck: "checked" })
-            console.log(this.state.fineFocusCheck);
+            console.log("check");
         }
         else {
+            console.log("uncheck");
             this.setState({ fineFocusCheck: "unchecked" })
         }
 
-        this.setState({ blur: blur });
+        this.setState({ blur: blur, currAngleF: angle });
     }
 
     calculateOffset(name, angle) {
@@ -142,6 +167,7 @@ export default class LensView extends React.Component {
     lensesCallback = (activeLens) => {
 
         this.setState({ activeLens: activeLens })
+
         if (activeLens === "fourX") {
             this.setState({ scale: 1 })
         }
@@ -151,12 +177,16 @@ export default class LensView extends React.Component {
         else if (activeLens === "fourtyX") {
             this.setState({ scale: 10 })
         }
+
+        this.calculateIdealAngles()
+        this.calculateFineFocus(this.state.currAngleF)
+        this.calculateCoarseFocus(this.state.currAngleC)
     }
 
     render() {
         return (
             <React.Fragment>
-                <Checklist coarseFocusCheck={this.state.coarseFocusCheck} fineFocusCheck={this.state.fineFocusCheck}/>
+                <Checklist coarseFocusCheck={this.state.coarseFocusCheck} fineFocusCheck={this.state.fineFocusCheck} />
                 <Lenses callback={this.lensesCallback} />
                 <ViewCircle angle={this.state.angle} yOffset={this.state.yOffset} xOffset={this.state.xOffset} blur={this.state.blur} scale={this.state.scale} />
                 <Dials callback={this.dialsCallback} rotationC={this.state.rotationC} rotationF={this.state.rotationF} rotationH={this.state.rotationH} rotationV={this.state.rotationV} />
