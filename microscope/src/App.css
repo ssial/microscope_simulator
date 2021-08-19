@@ -41,6 +41,14 @@
   opacity: 0;
 }
 
+.specimenButton:hover {
+  border: solid #373737 5px !important;
+}
+
+.activeSpecimen {
+  border: solid #373737 5px !important;
+}
+
 .App-link {
   color: #61dafb;
 }
