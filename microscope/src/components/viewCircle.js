@@ -2,6 +2,7 @@ import React from 'react';
 import comb from "../imgs/thumbnail_Scale_4X.jpg";
 import sunflower from "../imgs/sunflower_stem.jpg";
 import corn from "../imgs/corn_stem.jpg";
+import onion from "../imgs/onion_root.jpeg"
 
 let styles = {
     outerCircle: {
@@ -24,7 +25,7 @@ export default class ViewCircle extends React.Component {
             <React.Fragment>
                 <div style={styles.outerCircle}>
                     <div style={styles.innerCircle}>
-                    <img style={{margin:"-20% -100%",maxHeight:"100vh",transform:`translateY(${this.props.yOffset}%) translateX(${this.props.xOffset}%) scale(${this.props.scale})`, filter:`blur(${this.props.blur}em)`}} src={this.props.activeSpecimen === "sunflower" ? sunflower : this.props.activeSpecimen === "corn" ? corn : comb}/>
+                    <img style={{margin:"-20% -100%",maxHeight:"100vh",transform:`translateY(${this.props.yOffset}%) translateX(${this.props.xOffset}%) scale(${this.props.scale})`, filter:`blur(${this.props.blur}em)`}} src={this.props.activeSpecimen === "sunflower" ? sunflower : this.props.activeSpecimen === "corn" ? corn : onion}/>
                     </div>
                 </div>
             </React.Fragment>

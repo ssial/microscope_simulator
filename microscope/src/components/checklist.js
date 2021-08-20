@@ -3,7 +3,7 @@ import checkmark from '../imgs/check-mark.png'
 
 let styles = {
     container: {
-        position: "absolute", width: 300, marginLeft: 60, top: 35
+        position: "absolute", width: 270, marginLeft: 60, top: "13%"
     },
     title: {
         color: "#d2d2d2", backgroundColor: "#111111", lineHeight: 2.2, fontSize: "1.15em", fontWeight: "bold"
@@ -22,6 +22,9 @@ let styles = {
     },
     specimen: {
         lineHeight: 2.2, paddingLeft: 20, marginTop: 5, fontWeight: "500", boxSizing:"border-box", border: "solid #272727 5px" 
+    },
+    boldText: {
+        color:'#FDFE66', fontWeight:"500"
     }
 }
 
@@ -59,15 +62,17 @@ export default class Checklist extends React.Component {
                     <div style={styles.item}><div style={styles.square}><img className={this.props.coarseFocusCheck} style={styles.checkmark} src={checkmark} /></div>Coarse Focus</div>
                     <div style={styles.item}><div style={styles.square}><img className={this.props.fineFocusCheck} style={styles.checkmark} src={checkmark} /></div>Fine Focus</div>
                     <div style={styles.item}><div style={styles.square}><img className="checked" style={styles.checkmark} src={checkmark} /></div>Iris Diaphragm</div>
-                    <div style={{ width: 270, height: 400, textAlign: "left", paddingTop: 10, paddingLeft: 10 }}>
+                    <div style={{ height: 350, textAlign: "left", paddingTop: 10, paddingLeft: 10 }}>
                         <span style={{ color: "#d2d2d2", fontSize: "1.15em", fontWeight: "bold" }}>Tips:</span>
                         <p style={{ color: "#F8E71C", fontStyle: "italic" }}>Click on the <span style={{ color: "#4A90E2", fontWeight: "500" }}>blue help icon</span> to learn how to adjust the dials and controls.</p>
+                        <p style={{ color: "#F8E71C", fontStyle: "italic" }}><span style={styles.boldText}>Adjust stage dials</span> to <span style={styles.boldText}>move specimen vertically</span> (top stage dial) or <span style={styles.boldText}>horizontally</span> (bottom stage dial) until specimen's position is centered.</p>
+                        <p style={{color: "#F8E71C", fontStyle: "italic"}}><span style={styles.boldText}>Adjust coarse focus</span> (black outermost focus dial) to bring specimen into view. Then <span style={styles.boldText}>adjust fine focus</span> (grey innermost focus dial) to bring details into focus.</p>
                     </div>
                     <div style={{ textAlign: "left", color: "#d2d2d2", fontSize: "1.1em", paddingTop: 10, paddingLeft: 10, width: 200 }}>
                         <span style={{ fontSize: "1.15em", fontWeight: "bold" }}>Select Specimen:</span>
                         <div id="sunflower" onClick={this.handleClick} className={this.state.activeSpecimen === "sunflower" ? "specimenButton activeSpecimen": "specimenButton"} style={styles.specimen}>Sunflower Stem</div>
                         <div id="corn" onClick={this.handleClick} className={this.state.activeSpecimen === "corn" ? "specimenButton activeSpecimen": "specimenButton"} style={styles.specimen}>Corn Stem</div>
-                        <div id="comb" onClick={this.handleClick} className={this.state.activeSpecimen === "comb" ? "specimenButton activeSpecimen": "specimenButton"} style={styles.specimen}>Comb</div>
+                        <div id="onion" onClick={this.handleClick} className={this.state.activeSpecimen === "onion" ? "specimenButton activeSpecimen": "specimenButton"} style={styles.specimen}>Onion Root</div>
                     </div>
                 </div>
 

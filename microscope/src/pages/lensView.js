@@ -21,6 +21,8 @@ export default class LensView extends React.Component {
 
         const idealAngleF = Math.floor(Math.random() * (max - min + 1) + min);
         this.setState({ idealAngleF: idealAngleF });
+
+        return idealAngleF;
     }
 
     setRandomOffsets() {
@@ -75,13 +77,13 @@ export default class LensView extends React.Component {
         const minIdeal = idealAngle - 10;
         const maxIdeal = idealAngle + 10;
 
-        console.log("comparing angle ", angle, " idealAngle ", idealAngle)
+       
         if ((angle >= minIdeal) && (angle <= maxIdeal)) {
-            console.log("check");
+      
             this.setState({ coarseFocusCheck: "checked" })
         }
         else {
-            console.log("uncheck");
+        
             this.setState({ coarseFocusCheck: "unchecked" })
         }
 
@@ -91,6 +93,7 @@ export default class LensView extends React.Component {
     calculateFineFocus(angle) {
         // let angle = this.state.angle;
         const idealAngle = this.state.idealAngleF;
+        console.log("current angle: ",angle, " ideal angle: ",idealAngle)
         const idealVal = 0;
         let blur = 0;
         let maxVal = 0.5;
@@ -111,13 +114,13 @@ export default class LensView extends React.Component {
         const minIdeal = idealAngle - 10;
         const maxIdeal = idealAngle + 10;
 
-        console.log("comparing angle ", angle, " idealAngle ", idealAngle)
+
         if ((angle >= minIdeal) && (angle <= maxIdeal)) {
             this.setState({ fineFocusCheck: "checked" })
-            console.log("check");
+       
         }
         else {
-            console.log("uncheck");
+       
             this.setState({ fineFocusCheck: "unchecked" })
         }
 
