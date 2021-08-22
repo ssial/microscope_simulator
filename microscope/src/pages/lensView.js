@@ -14,6 +14,7 @@ export default class LensView extends React.Component {
         }
     }
 
+    // creates new fine focus ideal threshold when lens is switched
     resetFineFocusIdealAngle() {
 
         let min = Math.ceil(135);
@@ -25,6 +26,7 @@ export default class LensView extends React.Component {
         return idealAngleF;
     }
 
+  
     setRandomOffsets() {
         // Calculate random ideal angles on dial for coarse focus and fine focus between 135 - 225
         let min = Math.ceil(135);
@@ -54,8 +56,8 @@ export default class LensView extends React.Component {
 
     }
 
+    // calculates and applies coarse focus based on current angle of dial
     calculateCoarseFocus(angle) {
-        // let angle = this.state.angle;
         const idealAngle = this.state.idealAngleC;
         const idealVal = 0.5;
         let blur = 0;
@@ -90,10 +92,9 @@ export default class LensView extends React.Component {
         this.setState({ blur: blur, currAngleC: angle });
     }
 
+    // calculates and applies fine focus based on current angle of dial
     calculateFineFocus(angle) {
-        // let angle = this.state.angle;
         const idealAngle = this.state.idealAngleF;
-        console.log("current angle: ",angle, " ideal angle: ",idealAngle)
         const idealVal = 0;
         let blur = 0;
         let maxVal = 0.5;
@@ -127,6 +128,7 @@ export default class LensView extends React.Component {
         this.setState({ blur: blur, currAngleF: angle });
     }
 
+    // calculates vertical or horizontal offsets from stage dials
     calculateOffset(name, angle) {
         let offset = 0;
 
@@ -140,13 +142,14 @@ export default class LensView extends React.Component {
             offset = Math.round((100 - ((angle / 180)) * 100) * -1);
         }
 
+        // if 10x lens active then increase offset so image moves atleast halfway past viewpoint
         if (this.state.scale === 2.5) {
             offset = offset * (2.5 / 2)
         }
+        // if 40x lens active then increase offset so image moves atleast halfway past viewpoint
         else if (this.state.scale === 10) {
             offset = offset * (10 / 2)
         }
-
 
         if (name === "verticalStage") {
             this.setState({ yOffset: offset })
@@ -154,13 +157,11 @@ export default class LensView extends React.Component {
         else if ((name === "horizontalStage")) {
             this.setState({ xOffset: offset })
         }
-
-        // console.log("angle: ", angle, " offset: ", offset, " direction: ", this.state.direction);
     }
 
     dialsCallback = (angleData) => {
         this.setState({ angle: angleData.state.angle, direction: angleData.state.direction });
-        // console.log(angleData.name);
+        
         if (angleData.name === "verticalStage" || angleData.name === "horizontalStage") {
             this.calculateOffset(angleData.name, this.state.angle);
         }
@@ -186,6 +187,7 @@ export default class LensView extends React.Component {
             this.setState({ scale: 10 })
         }
 
+        // reset fine focus when lens is switched
         this.resetFineFocusIdealAngle()
         this.calculateFineFocus(this.state.currAngleF)
     }

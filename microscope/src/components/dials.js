@@ -26,7 +26,7 @@ let styles = {
         pointer: {
             width: 12, height: 24, backgroundColor: "#373737"
         }
-    },
+    }
 
 }
 
@@ -41,7 +41,6 @@ export default class Dials extends React.Component {
     }
 
     dialsCallback = (angleData) => {
-        // console.log(angleData)
         this.setState({angle: angleData.state.angle, direction: angleData.state.direction})
         this.props.callback(angleData);
     }
