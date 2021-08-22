@@ -1,1 +1,1 @@
-# microscope_simulator
+# microscope simulator
