@@ -2,6 +2,7 @@ import React from 'react';
 import { gsap } from "gsap";
 import { Draggable } from "gsap/all";
 
+// Initialize Draggable library
 gsap.registerPlugin(Draggable);
 
 export default class Dial extends React.Component {
@@ -12,15 +13,9 @@ export default class Dial extends React.Component {
         this.dial = React.createRef();
     }
 
-    dragStart() {
-        // let rotation = Draggable.get(this.dial.current).rotation;
-        // let angle = Math.round(rotation);
-        // this.setState({initialAngle: angle});
-        // console.log(Draggable.get(this.dial.current).rotation)
-    }
-
 
     dragged() {
+        // get the current angle of dial
         let rotation = Draggable.get(this.dial.current).rotation;
         let angle = Math.round(rotation);
         let data = {
@@ -29,33 +24,21 @@ export default class Dial extends React.Component {
         }
         this.setState({ angle: angle, direction: Draggable.get(this.dial.current).getDirection() });
         this.props.callback(data);
-
-        // console.log("rotation: ", rotation)
-        // console.log("angle: ", this.state.angle);
-
-        // if(this.state.initialAngle<angle) {
-        //     console.log("C ");
-        // }
-        // else {
-        //     console.log("CO ");
-        // }
     }
 
     componentDidUpdate(prevProps) {
+        // update the position/angle of dial to a specific rotation 
         if (this.props.rotation !== prevProps.rotation) {
             gsap.set(this.dial.current, { rotation: this.props.rotation });
-
             Draggable.get(this.dial.current).update();
         }
     }
 
     componentDidMount() {
-
+        // create a dial
         let myDial = Draggable.create(this.dial.current, {
             type: "rotation",
             inertia: "true",
-            // onPress: this.dragStart,
-            // onDragStart: this.dragStart,
             onDrag: this.dragged,
             onDragEnd: function () {
                 // console.log("rotated: ",this.rotation);
@@ -63,12 +46,10 @@ export default class Dial extends React.Component {
             bounds: { minRotation: 0, maxRotation: 360 }
         });
 
+        // set position/angle of dial to a specific rotation
         gsap.set(this.dial.current, { rotation: this.props.rotation });
 
         Draggable.get(this.dial.current).update();
-
-        // this.setState({rotation: this.myDial.rotation})
-
     }
 
 

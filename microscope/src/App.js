@@ -8,7 +8,6 @@ import LensView from "./pages/lensView"
 
 
 function App() {
-  // Draggable.create("#rect");
   return (
     <div className="App">
      <LensView/>
