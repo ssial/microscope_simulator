@@ -57,7 +57,7 @@ export default class Checklist extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (this.props.coarseFocusCheck !== prevProps.coarseFocusCheck) {
-            // console.log("update - ", this.props.coarseFocusCheck)
+            console.log("update - ", this.props.coarseFocusCheck)
         }
         if (this.props.fineFocusCheck !== prevProps.fineFocusCheck) {
             // console.log("update - ", this.props.fineFocusCheck)
